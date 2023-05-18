@@ -29,26 +29,27 @@ class NewVisitorTest(unittest.TestCase):
         self.browser.get("http://localhost:8000")
         # title страницы равен 'To-Do'
         self.assertIn('To-Do', self.browser.title)
-        header_text = self.browser.find_element(By.NAME, 'h1').text
+        header_text = self.browser.find_element(By.TAG_NAME, "h1").text
         self.assertIn('To-Do', header_text)
 
         # Сразу видно текстовое поле
         inputbox = self.browser.find_element(By.ID,'id_new_item')
-        sefl.assertEqual(
+        self.assertEqual(
             inputbox.get_attribute('placeholder'),
             'Enter a to-do item'
         )
         # Набор текста в текстовом поле
-        input.send_keys('Купить павлиньи перья')
+        inputbox.send_keys('Купить павлиньи перья')
         # Принажатие enter, страница обновляется
         # Теперь страница содержит : "1. Buy pies" - в качестве элемента списка
-        input.send_keys(Keys.ENTER)
+        inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
 
-        table = self.browser.find_elements(By.NAME, 'tr')
-        rows = table.find_elements(By.NAME,'tr')
+        table = self.browser.find_element(by=By.ID, value='id_list_table')
+        rows = table.find_elements(By.TAG_NAME,value='tr')
         self.assertTrue(
-            any(row.text == '1: Купить павлиньи перья' for row in rows)
+            any(row.text == '1: Купить павлиньи перья' for row in rows),
+            "Новый элемент списка не появился в таблице"
         )
         self.fail('Закончить тест!')
         # Текстовое поле по прежнему приглашает добавить еще один элемент.
