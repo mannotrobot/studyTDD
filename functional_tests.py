@@ -1,5 +1,9 @@
-from selenium import webdriver
+import time
 import unittest
+
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 
 
 class NewVisitorTest(unittest.TestCase):
@@ -25,12 +29,28 @@ class NewVisitorTest(unittest.TestCase):
         self.browser.get("http://localhost:8000")
         # title страницы равен 'To-Do'
         self.assertIn('To-Do', self.browser.title)
-
+        header_text = self.browser.find_element(By.NAME, 'h1').text
+        self.assertIn('To-Do', header_text)
 
         # Сразу видно текстовое поле
+        inputbox = self.browser.find_element(By.ID,'id_new_item')
+        sefl.assertEqual(
+            inputbox.get_attribute('placeholder'),
+            'Enter a to-do item'
+        )
         # Набор текста в текстовом поле
+        input.send_keys('Купить павлиньи перья')
         # Принажатие enter, страница обновляется
         # Теперь страница содержит : "1. Buy pies" - в качестве элемента списка
+        input.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        table = self.browser.find_elements(By.NAME, 'tr')
+        rows = table.find_elements(By.NAME,'tr')
+        self.assertTrue(
+            any(row.text == '1: Купить павлиньи перья' for row in rows)
+        )
+        self.fail('Закончить тест!')
         # Текстовое поле по прежнему приглашает добавить еще один элемент.
         # Новая задача -> enter -> Теперь два элемента в списке
         # Генерация уникального url ->  список дел, сохранен.
