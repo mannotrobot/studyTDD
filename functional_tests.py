@@ -38,6 +38,7 @@ class NewVisitorTest(unittest.TestCase):
             inputbox.get_attribute('placeholder'),
             'Enter a to-do item'
         )
+
         # Набор текста в текстовом поле
         inputbox.send_keys('Купить павлиньи перья')
         # Принажатие enter, страница обновляется
@@ -46,16 +47,29 @@ class NewVisitorTest(unittest.TestCase):
         time.sleep(1)
 
         table = self.browser.find_element(by=By.ID, value='id_list_table')
-        rows = table.find_elements(By.TAG_NAME,value='tr')
-        self.assertTrue(
-            any(row.text == '1: Купить павлиньи перья' for row in rows),
-            "Новый элемент списка не появился в таблице"
-        )
-        self.fail('Закончить тест!')
+        rows = table.find_elements(By.TAG_NAME, value='tr')
+        self.assertIn('1: Купить павлиньи перья', [row.text for row in rows])
+
         # Текстовое поле по прежнему приглашает добавить еще один элемент.
-        # Новая задача -> enter -> Теперь два элемента в списке
+        inputbox = self.browser.find_element(By.ID, 'id_new_item')
+
+        # Вводить новую задачу 'Сделать мушку из павлиньих перьев'
+        inputbox.send_keys('Сделать мушку из павлиньих перьев')
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        # страница снова обновляется и показывает два элемента
+        table = self.browser.find_element(by=By.ID, value='id_list_table')
+        rows = table.find_elements(By.TAG_NAME, value='tr' )
+        self.assertIn('1: Купить павлиньи перья', [row.text for row in rows])
+        self.assertIn('2: Сделать мушку из павлиньих перьев',
+                      [row.text for row in rows])
         # Генерация уникального url ->  список дел, сохранен.
 
+
+        self.fail("ЗАКОНЧИТЬ ТЕСТ")
+
+        
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
