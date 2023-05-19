@@ -3,3 +3,4 @@ geckodriver.log
 __pycache__
 .save
 .swp
+.functional_tests.py.swp

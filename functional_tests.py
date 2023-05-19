@@ -20,6 +20,13 @@ class NewVisitorTest(unittest.TestCase):
         self.browser.quit()
 
 
+    def check_for_row_in_list_table(self, row_text):
+        """подверждения строки в таблице списка"""
+        table = self.browser.find_element(by=By.ID, value='id_list_table')
+        rows = table.find_elements(by=By.TAG_NAME, value='tr')
+        self.assertIn(row_text, [row.text for row in rows])
+
+
 
     def test_can_start_a_list_and_retieve_it_later(self):
         """тест: можно начать список и получить его позже"""
@@ -45,10 +52,7 @@ class NewVisitorTest(unittest.TestCase):
         # Теперь страница содержит : "1. Buy pies" - в качестве элемента списка
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
-
-        table = self.browser.find_element(by=By.ID, value='id_list_table')
-        rows = table.find_elements(By.TAG_NAME, value='tr')
-        self.assertIn('1: Купить павлиньи перья', [row.text for row in rows])
+        self.check_for_row_in_list_table('1: Купить павлиньи перья')
 
         # Текстовое поле по прежнему приглашает добавить еще один элемент.
         inputbox = self.browser.find_element(By.ID, 'id_new_item')
@@ -59,17 +63,14 @@ class NewVisitorTest(unittest.TestCase):
         time.sleep(1)
 
         # страница снова обновляется и показывает два элемента
-        table = self.browser.find_element(by=By.ID, value='id_list_table')
-        rows = table.find_elements(By.TAG_NAME, value='tr' )
-        self.assertIn('1: Купить павлиньи перья', [row.text for row in rows])
-        self.assertIn('2: Сделать мушку из павлиньих перьев',
-                      [row.text for row in rows])
+        self.check_for_row_in_list_table('1: Купить павлиньи перья')
+        self.check_for_row_in_list_table('2: Сделать мушку из павлиньих перьев')
         # Генерация уникального url ->  список дел, сохранен.
 
 
         self.fail("ЗАКОНЧИТЬ ТЕСТ")
 
-        
+
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
