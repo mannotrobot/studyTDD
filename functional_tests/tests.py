@@ -1,12 +1,14 @@
 import time
 import unittest
 
+from django.test import LiveServerTestCase
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
     """тест нового посетителя"""
 
     def setUp(self):
@@ -33,7 +35,7 @@ class NewVisitorTest(unittest.TestCase):
         # Эдит слышала про крутое новое онлайн-приложение со списком
         # неотложных дел.
 
-        self.browser.get("http://localhost:8000")
+        self.browser.get(self.live_server_url)
         # title страницы равен 'To-Do'
         self.assertIn('To-Do', self.browser.title)
         header_text = self.browser.find_element(By.TAG_NAME, "h1").text
