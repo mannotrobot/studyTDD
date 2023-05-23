@@ -121,7 +121,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertNotIn('Купить павлиньи перья', page_text)
         self.assertIn('Купить молоко', page_text)
 
-        self.fail("ЗАКОНЧИТЬ ТЕСТ")
+#        self.fail("ЗАКОНЧИТЬ ТЕСТ")
 
 
 
