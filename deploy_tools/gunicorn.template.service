@@ -1,0 +1,14 @@
+[Unit]
+Description=Gunicorn server for $SITENAME
+
+[Service]
+Restart=on-failure
+User=robot
+WorkingDirectory=/home/robot/sites/SITENAME/source
+ExecStart=/home/robot/sites/SITENAME/virtualenv/bin/gunicorn \
+    --bind unix:/tmp/SITENAME.socket \
+    superlists.wsgi:application
+
+
+[Install]
+WantedBy=multi-user.target
