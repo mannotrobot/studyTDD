@@ -1,10 +1,15 @@
 from django.db import models
+#from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 
 
 class List(models.Model):
     """список"""
-    ...
+
+    def get_absolute_url(self):
+        """получить абсолютный url"""
+        return reverse("view_list", args=[self.id])
 
 
 
