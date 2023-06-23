@@ -23,7 +23,7 @@ class NewVisitorTest(FunctionalTest):
         self.assertIn('To-Do', header_text)
 
         # Сразу видно текстовое поле
-        inputbox = self.browser.find_element(By.ID,'id_new_item')
+        inputbox = self.get_item_input_box()
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
             'Enter a to-do item'
@@ -37,7 +37,7 @@ class NewVisitorTest(FunctionalTest):
         self.wait_for_row_in_list_table('1: Купить павлиньи перья')
 
         # Текстовое поле по прежнему приглашает добавить еще один элемент.
-        inputbox = self.browser.find_element(By.ID, 'id_new_item')
+        inputbox = self.get_item_input_box()
 
 
         # Вводить новую задачу 'Сделать мушку из павлиньих перьев'
@@ -53,7 +53,7 @@ class NewVisitorTest(FunctionalTest):
     def test_multiple_users_can_start_lists_at_different_urls(self):
         """ тест: разные пользователи разные url для списков"""
         self.browser.get(self.live_server_url)
-        inputbox = self.browser.find_element(by=By.ID, value='id_new_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('Купить павлиньи перья')
         inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: Купить павлиньи перья')
@@ -72,7 +72,7 @@ class NewVisitorTest(FunctionalTest):
         self.assertNotIn('Сделать мушку', page_text)
 
         # Создаем новый список дел
-        inputbox = self.browser.find_element(by=By.ID, value='id_new_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('Купить молоко')
         inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: Купить молоко')
