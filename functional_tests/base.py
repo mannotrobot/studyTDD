@@ -59,5 +59,6 @@ class FunctionalTest(StaticLiveServerTestCase):
 
 
     def get_item_input_box(self):
-        """получить поле ввода для элемента"""
+        '''получить поле ввода для элемента'''
         return self.browser.find_elements('id_text')
+        
