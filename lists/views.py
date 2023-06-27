@@ -16,7 +16,6 @@ def view_list(request, list_id):
     list_ = List.objects.get(id=list_id)
     form = ItemForm()
 
-
     if request.method == "POST":
         form = ItemForm(data=request.POST)
         if form.is_valid():
@@ -36,13 +35,13 @@ def new_list(request):
     else:
         return render(request, 'home.html', {"form": form})
 
-    try:
-        item.full_clean()
-        item.save()
-    except ValidationError:
-        list_.delete()
-        error = "You can't have an empty list item"
-        return render(request, 'home.html', {"error": error})
-
-    return redirect(list_)
+#    try:
+#        item.full_clean()
+#        item.save()
+#    except ValidationError:
+#        list_.delete()
+#        error = "You can't have an empty list item"
+#        return render(request, 'home.html', {"error": error})
+#
+#    return redirect(list_)
 

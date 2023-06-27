@@ -115,10 +115,10 @@ class ListViewTest(TestCase):
         self.assertIsInstance(response.context['form'], ItemForm)
 
 
-#    def test_for_invalid_input_shows_error_on_page(self):
-#        """тест: на недопустимый ввод -- на странице показывается ошибка"""
-#        response = self.post_invalid_input()
-#        self.assertContains(response, EMPTY_ITEM_ERROR)
+    def test_for_invalid_input_shows_error_on_page(self):
+        """тест: на недопустимый ввод -- на странице показывается ошибка"""
+        response = self.post_invalid_input()
+        self.assertContains(response, escape(EMPTY_ITEM_ERROR))
 
 
     def test_displays_item_form(self):
@@ -165,10 +165,10 @@ class NewListTest(TestCase):
         self.assertTemplateUsed(response, 'home.html')
 
 
-#    def test_validation_errors_are_shown_on_home_page(self):
-#        '''тест: ошибки валидации выводятся на домашней странице'''
-#        response = self.client.post('/lists/new', data={'text': ''})
-#        self.assertContains(response, escape(EMPTY_ITEM_ERROR))
+    def test_validation_errors_are_shown_on_home_page(self):
+        '''тест: ошибки валидации выводятся на домашней странице'''
+        response = self.client.post('/lists/new', data={'text': ''})
+        self.assertContains(response, escape(EMPTY_ITEM_ERROR))
 
 
     def test_for_invalid_input_passes_form_to_template(self):
